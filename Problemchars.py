@@ -24,7 +24,7 @@ tag_problematica = []
 
 def key_type(element, keys):
     """
-    Para cada chave "K", verifica e conta o total de caracteres problematicos, minusculos e outros.
+    Para cada chave "K", verifica e conta o total de caracteres problemáticos, minúsculos  e outros.
     Imprime as tags com caracteres problemáticos.
 
     Args:
@@ -53,7 +53,7 @@ def key_type(element, keys):
 def process_map(filename):
     """
     Cria o dicionário Keys com as chaves para identificar o total de tags em cada situação.
-    Percorre todo o arquivo XML, chamando a função Key_type para cada node da estrutura de dados
+    Percorre todo o arquivo XML, chamando a função Key_type para cada node da estrutura de dados.
 
     Args:
         filename: nome do arquivo a ser processado.
