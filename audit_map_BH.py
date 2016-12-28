@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
 Created on Thu Dec 22 16:32:07 2016
 
@@ -9,14 +10,13 @@ Created on Thu Dec 22 16:32:07 2016
 """
 
 """
+
 import xml.etree.cElementTree as ET
 from collections import defaultdict
 import re
 
-
 OSMFILE = "C:/Nanodegree/MongoDb/Trab_final/map_BH.osm"
-street_type_re = re.compile(r'^\b(?u)\w\S+\.?', re.IGNORECASE)
-street_title_re = re.compile(r'\b\w+\.\w+?', re.IGNORECASE)
+
 
 
 expected_street = ["Rua", "Avenida", "Beco", "Rodovia", "Expressa", u"Praça", "Anel", "Alameda"]
@@ -44,7 +44,7 @@ mapping_title = {'Prof.': u'Professor',
 mapping_city = {"Beo Horizonte" : "Belo Horizonte",
                 "Bh" : "Belo Horizonte"}
 
-def audit_street_type(street_types, street_name):
+def audit_street_type(street_types, street_name, expected_street):
     """
     Para cada chave "K", verifica e conta o total de caracteres problemáticos, minúsculos  e outros.
     Imprime as tags com caracteres problemáticos.
@@ -56,12 +56,14 @@ def audit_street_type(street_types, street_name):
         Retorna um dicionário com o total de tags com caracteres minúsculos, 
         minúsculos com :, problemáticos e todos os outros.
     """
+    street_type_re = re.compile(r'^\b(?u)\w\S+\.?', re.IGNORECASE)
     m = street_type_re.search(street_name)
     if m:
         street_type = m.group()
         if street_type not in expected_street:
             street_types[street_type].add(street_name)
-
+            
+    return street_types
 
 def is_street_name(elem):
     """
@@ -94,7 +96,7 @@ def is_postal_code(elem):
     Returns:
         Retorna True ou False 
     """
-    return (elem.attrib['k'] == "postal_code")    
+    return (elem.attrib['k'] == "addr:postal_code")    
 
 def update_postal_code(postalcode):   
     """
@@ -111,12 +113,10 @@ def update_postal_code(postalcode):
     if postalcode.find("-"):
         postalcode = postalcode.replace("-","")
         
-        
-    print postalcode    
     return postalcode
 
 
-def update_street_type(name, mapping):
+def update_street_type(name, mapping, expected_street):
     """
     Para cada chave "K", verifica e conta o total de caracteres problemáticos, minúsculos  e outros.
     Imprime as tags com caracteres problemáticos.
@@ -128,6 +128,8 @@ def update_street_type(name, mapping):
         Retorna um dicionário com o total de tags com caracteres minúsculos, 
         minúsculos com :, problemáticos e todos os outros.
     """
+    street_type_re = re.compile(r'^\b(?u)\w\S+\.?', re.IGNORECASE)
+
     name = name.title()
     m = street_type_re.search(name)
     if m:
@@ -153,7 +155,8 @@ def update_street_title(name, mapping):
     Returns:
         Retorna um dicionário com o total de tags com caracteres minúsculos, 
         minúsculos com :, problemáticos e todos os outros.
-    """           
+    """   
+    #street_title_re = re.compile(r'\b\w+\.\w+?', re.IGNORECASE)        
     title = name.split()[1]
     
     if title.endswith("."):
@@ -219,9 +222,9 @@ def audit(osmfile):
     return street_types
 
 
-def test():
-    st_types = audit(OSMFILE)
+#def test():
+#    st_types = audit(OSMFILE)
     #pprint.pprint(dict(st_types))
           
-if __name__ == '__main__':
-    test()
+#if __name__ == '__main__':
+#    test()
