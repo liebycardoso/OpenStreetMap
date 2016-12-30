@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Sat Dec 24 21:05:47 2016
@@ -5,8 +6,7 @@ Created on Sat Dec 24 21:05:47 2016
 @author: MasterLieby
 """
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 """
 Your task is to use the iterative parsing to process the map file and
 find out not only what tags are there, but also how many, to get the
@@ -18,7 +18,6 @@ the map as value.
 Note that your code will be tested with a different data file than the 'example.osm'
 """
 import xml.etree.cElementTree as ET
-import pprint
 import re
 import json
 import codecs
@@ -64,13 +63,13 @@ def process_map(filename):
     Args:
         filename: nome do arquivo a ser processado.
     Returns:
-        Retorna um dicionário com o total de tags com caracteres minúsculos, 
-        minúsculos com :, problemáticos e todos os outros.
+        Não retorna valor
     """
     
     keys = {"lower": 0, "lower_colon": 0, "problemchars": 0, "other": 0}
     tags = {}
     tags_child = {}
+    
     with codecs.open('C:/Nanodegree/MongoDb/Trab_final/Summary_OSM_BH.json', "w") as fo:
         for _, element in ET.iterparse(filename):
             keys = key_type(element, keys)
@@ -81,7 +80,14 @@ def process_map(filename):
         fo.write(json.dumps(tags_child, indent=2) + "\n")
 
 def count_tags(element, keys):
-        # YOUR CODE HERE
+    """
+    Cria o dicionário Keys com as chaves para identificar o total de aparições de uma tag
+
+    Args:
+        filename: nome do arquivo a ser processado.
+    Returns:
+        keys: Dicionário com o nome da tag e total de aparições
+    """    
     if element.tag in keys:
         keys[element.tag] += 1
     else:
@@ -89,6 +95,15 @@ def count_tags(element, keys):
     return keys
 
 def count_child_tags(element, keys):
+    """
+    Cria o dicionário Keys com as chaves para identificar o total de aparições de uma tag filha
+
+    Args:
+        filename: nome do arquivo a ser processado.
+        keys: Dicionário onde são gravados os valores
+    Returns:
+        keys: Dicionário com o nome do atributo e total de aparições
+    """    
     
     if element.tag == "node" or element.tag == "way":
         for tag in element.iter("tag"):
