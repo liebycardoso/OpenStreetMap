@@ -1,16 +1,16 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Dec 22 11:36:01 2016
 
 @author: MasterLieby
 """
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 
 import xml.etree.ElementTree as ET  # Use cElementTree or lxml if too slow
 
-OSM_FILE = "C:/Nanodegree/MongoDb/Trab_final/map.osm"  # Replace this with your osm file
-SAMPLE_FILE = "sample.osm"
+OSM_FILE = "C:/Nanodegree/MongoDb/Trab_final/map_BH.osm"  # Replace this with your osm file
+SAMPLE_FILE = "sample_BH.osm"
 
 k = 10 # Parameter: take every k-th top level element
 
