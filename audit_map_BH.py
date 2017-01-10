@@ -66,7 +66,9 @@ def update_postal_code(postalcode):
         postalcode: Versão da string recebida sem o caractere "-"
     """           
     if postalcode.find("-"):
-        postalcode = postalcode.replace("-","")
+        postal_code_re = re.findall(r'^(\d{5})-(\d{3})$', postalcode)[0]
+        clean_postcode = ''.join(postal_code_re)
+        postalcode = clean_postcode.replace("-","")
         
     return postalcode
 
@@ -151,46 +153,7 @@ def update_city(city, mapping, expected_city):
                 city = city[0:14]
         
     return city
-"""
-def audit(osmfile):
-    
-    Para cada chave "K", verifica e conta o total de caracteres problemáticos, minúsculos  e outros.
-    Imprime as tags com caracteres problemáticos.
 
-    Args:
-        element: Um node do arquivo XML
-        keys: Dicionário a ser preenchido
-    Returns:
-        Retorna um dicionário com o total de tags com caracteres minúsculos, 
-        minúsculos com :, problemáticos e todos os outros.
-    
-    osm_file = open(osmfile, "r")
-    street_types = defaultdict(set)
-    for event, elem in ET.iterparse(osm_file, events=("start",)):
-
-        if elem.tag == "node" or elem.tag == "way":
-            for tag in elem.iter("tag"):
-                if is_street_name(tag):
-                    audit_street_type(street_types, tag.attrib['v'])
-                    for st_type, ways in street_types.iteritems():
-                        for name in ways:
-                            better_name = update_street_type(name, mapping_street)
-                            better_name = update_street_title(better_name, mapping_title)
-                elif is_city_name(tag):
-                    update_city(tag.attrib['v'], mapping_city)
-                elif is_postal_code(tag):
-                    update_postal_code(tag.attrib['v'])
-                    
-    osm_file.close()
-    return street_types
-
-"""
-#def test():
-#    st_types = audit(OSMFILE)
-    #pprint.pprint(dict(st_types))
-          
-#if __name__ == '__main__':
-#    test()
 def main():
     pass
 
