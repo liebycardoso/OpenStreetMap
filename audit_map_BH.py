@@ -58,17 +58,18 @@ def is_postal_code(elem):
 
 def update_postal_code(postalcode):   
     """
-    Para cada valor de postalcode verifica se existe o caractere "-" e o remove
-
+    Para cada valor de postalcode recebido compara com o padrão passada e retorna a primeira 
+    posição da lista de valores.
+    Na sequencia exclui o caractere "-" da string.
+    
     Args:
         postalcode: String com a representação do código postal
     Returns:
         postalcode: Versão da string recebida sem o caractere "-"
     """           
-    if postalcode.find("-"):
-        postal_code_re = re.findall(r'^(\d{5})-(\d{3})$', postalcode)[0]
-        clean_postcode = ''.join(postal_code_re)
-        postalcode = clean_postcode.replace("-","")
+    
+    postal_code_re = re.findall(r'^(\d{5})-(\d{3})$', postalcode)[0]
+    postalcode = postal_code_re.replace("-","")
         
     return postalcode
 
